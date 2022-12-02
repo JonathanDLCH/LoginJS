@@ -5,6 +5,7 @@ import { loginCheck } from './app/loginCheck.js'
 import './app/firebase.js'
 import './app/signInForm.js'
 import './app/logInForm.js'
+import './app/googleLogin.js'
 import './app/logout.js'
 
 

@@ -1,23 +1,21 @@
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js"
+import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js"
 import { auth } from './firebase.js'
 import { showMessage } from './showMessage.js'
 
-const logInForm = document.querySelector('#logIn-form')
+const googleButton = document.querySelector('#googleLogin')
 
-logInForm.addEventListener('submit', async e => {
-    e.preventDefault()
+googleButton.addEventListener('click', async()=>{
 
-    const email = logInForm['login-email'].value
-    const password = logInForm['login-password'].value
+    const provider = new GoogleAuthProvider()
 
     try {
-        const credentials = await signInWithEmailAndPassword(auth, email, password)
+        const credentials = await signInWithPopup(auth,provider)
         console.log(credentials)
 
         const modal = bootstrap.Modal.getInstance(document.querySelector('#logInModal'))
         modal.hide()
 
-        showMessage("Welcome "+credentials.user.email)
+        showMessage("Welcome "+credentials.user.displayName)
     } catch (error) {
         if(error.code==='auth/wrong-password'){
             showMessage('Wrong password','error')
@@ -26,6 +24,5 @@ logInForm.addEventListener('submit', async e => {
         }else{
             showMessage(error.message,'error')
         }
-
     }
 })
